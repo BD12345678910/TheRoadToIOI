@@ -1,0 +1,15 @@
+already achieved 70 in contest.
+
+I have a 2N + 2 LOG N  solution:
+
+we consider 2... N-1 one at a time, query each node with the two backs, if either then append, if neither then p ~q and make u its own chain. when we have two chains, we query their connectivity, if not connected then done; if connected, consider A.front A.back B.front, if no AB, then A is a cycle; similar for B, worst case is: both A and B are cycles, 2N operations max, then we spend 2 log (N) to narrow down an exact connection point as i already realized in my solution; is this an ok 2N + 2 log N solution, it is 256+256+8+8 = 528
+
+I have a 3N/2 + 2 LOG N solution:
+
+consider two nodes at a time with three queries. suppose p, q are the backs, and i have u, v
+
+query u, p: if u, p works then v can be done in two queries done
+
+if u, p doesnt work, then query v, p, if v, p works, i can solve u in one query still; if v, p doesn't work then u, v must be connected, i then query u, q, if yes, then we have p and quv, if no, then  pq must be connected and we do p ~q, u v.
+
+

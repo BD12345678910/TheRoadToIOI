@@ -1,0 +1,89 @@
+stuck during vp for 2.5h on this problem... got 22 without getting brute force sub1 :(
+
+at first i thought that if there were a permutation, it would have to be in nondecreasing order of number of children when doing bfs, which is naively wrong and i WAed many times. there was some intuition in it thats correct though
+
+consider a series of solid observations that lead to a strictly necessary conditions that eventually become constraining enough...
+
+Obviously no vertex can have two children connected to it with the same color, as then if we put one of them into the sequence, the other would not be satisfied.
+
+Suppose we have order
+
+R=v0 v1 v2 v3 v4
+
+Fix a color c, suppose vi has a child xi with color c (with = connected by this color), this means the color c has appeared for the i+1th time. What about the previous i times? Well, the ith time that c appeared was some child of v_{i-1}, ... the 1st time that c appeared was some child of v0! This means that if we list a table where the vertex at (row x, column y) means the unique child of y with color x, we would have a series of prefixes!!
+
+Color v0 v1 v2 v3 ... v|T(R)-1|
+1     v  v  v  v  v  v
+2     v  v  v  v
+3     v  v  v
+4     v  v  v  v  v
+...
+M     v  v  
+
+(an example shown above, v's are vertex indices)
+
+This is already a good start, now suppose x comes before y in the sequence of v's, we claim that x's subtree size >= y's subtree size (*). 
+
+We know that the number of direct children of x >= the number of direct children of y, by the prefix table above. Specifically, for each color c, we have the cases:
+- x and y both have a child of this color (1)
+- x and y both don't have a child of this color (2)
+- x has a child of this color, but y doesn't (3)
+
+We only need to worry about (1), suppose x and y have children xc and yc of color c, respectively. Notice they again satisfy xc comes before yc in the sequence v. This is because if x = vi and y = vj, then i < j per our definitions, and xc is the i+1th c and yc is the j+1th c, so yc came after xc, we can continue this argument for all branches, and thus we have shown our claim (*). 
+
+Notice also a consequence of xc coming before yc is that, by what we've proven, subtree size of xc >= subtree size yc (!).
+
+At the moment now, it seems we can sort the vertices by their subtree size and finish, however, what if two subtrees have same size? how can we choose their order? Suppose x and y have the same subtree size and x comes before y in the v sequence: x can have more children of different colors, but we already have for each color c that x and y both have, subtree xc >= subtree yc (!), x must not have any other children (of colors that y does not have), and the equality must be taken at each step: for all c, xc = yc. We can repeat this argument down the tree again to obtain that subtree x and y are identical!!
+
+However, this does NOT mean that any order between vertices of equal sized subtrees works! Specifically, two identical subtrees' children must later also be placed in the x-before-y order... We simply need a construction method to ensure this.
+
+We maintain queues for each color, and only allow taking from the front: consider color c, when i add x, its child of color c gets added to the queue, later when i add y, its child of color c gets added to the queue, hence ensuring the order.
+
+This finally allows for a O(n^2 log n) solution: maintain FIFO queues for each color as we scan down the tree. This is O(n^2 log n), the bottleneck. Then, we directly check if the sequence is beautiful in O(n^2). 
+
+All of the following were very difficult: 
+1) deliberately deciding to find a "necessary condition", which is not the natural first step that contestants think of 
+2) establishing the nice table above and realizing prefix
+3) doing these informal-proofs in the middle to be safe
+
+This gives 71 points!
+
+To continue, we can derive a necessary and sufficient condition and we are actually already quite close...
+
+Define f_c(x) = subtree size of the child of x through color c
+
+If sz(x) >= sz(y), then x comes before y or they are identical, in both cases we have f_c(x) >= f_c(y) for all c (&&). The necessity of this condition is clear. Now we show that if we have a sequence v with this true for all pairs of terms, we must have a beautiful permutation, or the sufficiency!
+
+Suppose (&&) is true, and consider the 71 point procedure. We first take the root and insert its children into the queues, and then continue for the largest among queue fronts. 
+
+We first prove that the resulting sequence is nondecreasing in subtree size: 
+
+Consider an untaken z that is not at the front of a queue:
+
+If its parent has been taken, z is somewhere in a color queue, the front of that queue q was inserted earlier than z, so its parent was larger (inductively) by condition (&&), sz(q) >= sz(z)
+
+
+If its parent has not yet been taken, then some untaken ancestor a of z is currently has still not been taken yet, since z is descendant of a, sz(a) > sz(a)
+
+Therefore, an element not at the front of a queue can never be the striclty largest untaken element. Thus, the maximum of the queue fronts must contain the largest untaken subtree size.
+
+
+Now fix a color c. Suppose some later vertex y in the constructed sequence has a child c. For every earlier vertex x, sz(x) >= sz(y), by condition &&, f_c(x) >= f_c(y) > 0, so x also has a c-child. Thus, possession of a c-child is a prefix in the constructed sequence. This then satisfies the definition of beautiful per our table intuition!
+
+Hence the necessary and sufficient condition for a subtree being beautiful is 
+
+For all x, y in subtree R, if sz(x) >= sz(y), then for all c, f_c(x) >= f_c(y).
+
+With this in mind, optimization to O(N log N log N) is possible with small to large.
+
+For each vertex x maintain Su = {x: x in T(u)}, ordered by (sz[x], x), and we merge small to large. 
+
+For each of these sets, we only need to check neighbors due to transitivity. Then, we small to large, we insert elements from the smaller set to the larger and check the neighbors along the way.
+
+
+
+
+
+
+
+

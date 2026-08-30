@@ -1,0 +1,11 @@
+How?? Why is the time complexity of lazy update + query O(log(n))??
+
+Once a segment is fully within query range, we stop and use its value
+Let's call these leafs. There are at most two leafs per level.
+
+Some segments are partially within query range, but there are at most
+two!! One near ql, one near qr. Hence there are at most two partials
+per level.
+
+Since depth O(log n), there are at most O(log n) ops
+

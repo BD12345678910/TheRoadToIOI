@@ -1,0 +1,29 @@
+Tree Case (51 points):
+
+First run a query of all A, this gives "od"
+
+Arbitrarily label the edges, 0 to M-1, then binary search k over [0, M-1] to check if [0, k] B deviates from "od", if so, r = mid, else l = mid+1
+
+The result of this binary search is an edge that's on (s, t). s and t are in the
+two subtrees separated by this edge.
+
+Then, for each subtree, find the largest postfix of bfn such that setting this postfix of edges to B that does affect od. This finds s. Repeat to find t.
+
+within 17+17+17+1 = 52
+
+Full (100 points):
+
+Same strategy to find an edge. Then choose a point on that edge, k. Build a bfs tree from k, this means that this tree contains a shortest path of (s, t). Permanently set all nontree edges to B; then find the largest suffix of B's within that tree such that the od is unaffected.
+
+This is 52 queries (scores 89 points)
+
+For the final, most optimal solution, we must consider splitting the search space upon finding the first edge.
+
+Notice that if (s, t) passes through e of (u, v), we can split (not necessarily all) nodes into two groups: A, B. A are nodes strictly closer to u, B are nodes strictly closer to v. Notice that s, t must be in different groups! If both are closer to u, WLOG, then e would not be on the shortest path.
+
+Let S = all edges in A, B + e. U\S are all B permanent, we manipulate within S. To find s, we only need to search within A using the manner above; to find t, we only need to search within B. 
+
+O(logm)+O(logx)+O(log(n-x))+1 <= 50, which can AC
+
+
+

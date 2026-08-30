@@ -1,0 +1,9 @@
+Only signatures of exponents matter, there are 289 signatures within 1e6
+
+Furthermore, from the large testcase, we see that the maximum answer is 10, we can test this later too. Then, these signatures can generate around 1e4 total signatures after at most 10 moves. 
+
+For signature a and b, their distance = 0 if they have the same number of factors; distance = 1 if they are one operation apart. Run a bfs from each of the 289 initial signatures, after running, rather than storing all distances, we only care about the distance of a starting signature to a particular number of of factors: a final path from A to B can always be understood as A taking a path to d, and B taking a path to d; we can store dp[x][p] as the minimum distance from x to a node with number of divisors p. the number of different number of factors is around 1.2k
+
+The pre bfs easily passes, as its 1e4 * 30, thie main bfs has roughly 289 * 1e4 * 30, which is ok, np <= 289*1.2k, easily ok. then upon query, we can answer within 1.2k * 1e5, roughly 1e8, which should pass
+
+Quite an insane problem.

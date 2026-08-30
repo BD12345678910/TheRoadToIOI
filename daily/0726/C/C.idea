@@ -1,0 +1,42 @@
+Firstly, odd x must have a 1, they are taken by force; the remaining 1s can be converted to 2s, we then divide all by 2 to obtain the following problem
+
+given 
+
+1 2 5 10
+a b c d
+
+can we build all xi'
+
+we look at the problem from mod 10...
+
+We try to build all ways to get each units digit after removing all subsets that sum to 10 and removing ways that are "captured" by others, (e.g. 11 is captured by 2):
+
+0: /
+1: 1, or 2 2 2 5
+2: 2
+3: 1 2, or 2 2 2 2 5
+4: 2 2
+5: 5
+6: 2 2 2, or 1 5
+7: 5 2
+8: 2 2 2 2, or 1 2 5
+9: 5 2 2
+
+Notice that 1 3 and 6 8 form pairs: when we meet 3 or 8, we pair a 2 by force, obtaining only two dilemmas
+
+1: 1   or 2 2 2 5
+6: 1 5 or 2 2 2
+
+Suppose we gave 2 2 2 5 to x and 1 5 to y, we can just take the other pair and give both extra 5's to x; this means we never have to use both 2225 and 15. 
+
+Enumerate how many of 2225 (x) and 15 (y) are used:
+- x = 0, y = 0
+- x = 0, y > 0
+- x > 0, y = 0
+
+This leaves us with a', b', c', d'; we check if they can build k 10s, which is easy.
+
+
+
+
+

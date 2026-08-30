@@ -1,0 +1,5 @@
+Subtasks solved: 1 2 3 4 5 6 		(53)
+
+Subtasks obtained: 1 2 3 4 5 6 7 	(70)
+Subtask know: 8 					(14)
+Subtask roughly know: 9				(16)	

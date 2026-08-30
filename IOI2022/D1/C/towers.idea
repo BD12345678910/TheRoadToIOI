@@ -1,0 +1,88 @@
+Problem condition intuition: given two towers x, y, there must be a tower
+between them that is tall enough: at least max(xy)+D
+
+Subtask 1: k itself cannot be chosen (unless ans = 1).
+We cannot have two x, y both to the left or right of k, as then x or y is the maximum over [x, y], no intermediate tower can possibly be found. This caps the answer at 2, the answer is at least 1 (choose anyone).
+
+We can easily find the peak k, then for each query (l, r), a necessary condition is l < k < r. Furthermore, l is the smallest on left, r is the smallest on the right, and this is the pair most likely to work, so simply check if H[k] >= max(H[l], H[r])+D
+
+Subtask 2: 
+
+Property A: if x can connect y, and y can connect z (x < y < z), then x can connect z. This is very easy to prove.
+
+Then, to check of a clique X works, we can just check all its adjacent elements. For a given query (L,R), let dp[x] = the maximum number of elements chosen among [L, x], with x chosen. We enumerate the last y and obtain a solution O(n^2) with an ST table
+
+Property A will be used implicitly henceforth... also consider this in the proof of Method 1
+
+-----------------------------------------------------------------------
+
+Subtask 3: 
+
+Method 1: greedily choose the towers from shortest to tallest: that is, process ascendingly by height, take a tower whenever it can communicate with the closest left and right towers already chosen (if only left or right then consider only that)! Always choose the shortest. 
+
+Define LD(x) = closest on the left of x such that H[that] >= H[x]+D, similarly RD(x). For x to be successfully added, there cannot be any smaller elements within (LD(x), RD(x)). 
+
+LD, RD can be obtained using a monotonic stack + binary search, or with a segment tree. The positions chosen can be maintained with a fenwick.
+
+Proof of method: suppose x could communicate with closest left and closest right but was not chosen, suppose there is a strictly better choice S with all the smaller elements but without x. 
+
+If A, B with greater heights are to the left and right of x and chosen in S. Then A and B can communicate with intermediary I, and it lies in (A, X) or (X, B). WLOG it lies in (A, X), then we can replace B with X and everything else remains valid. 
+
+If there is only one side of A or B, we can immediately replace whichever it is with X!! everything else still remains valid.
+
+If there is no A or B, then the whole assumption backfires: literally just choose X!!
+
+Therefore, choosing X is always non sub-optimal.
+
+Subtask 4: D = 1, LD(x) is the first to the left smaller than it, similar for RD(x)
+
+Once subtask 3 is obtained, this one is not hard to see...
+
+There are not many possible relations between three adjacent elements:
+
+X > Y < Z: Y is a valley, LD(y) and RD(y) are the positions of X and Z, then, nothing could obstruct Y from being chosen. Y is chosen.
+
+X < Y < Z or X > Y > Z. Consider X < Y < Z:
+
+z is the RD(y), going left from X to LD(y), easily, there must be an element <= X, that has prev >= it. That element is chosen before Y and obstructs its being chosen.
+
+X < Y > Z: the same argument can be made as above, and even better, on both sides :)
+
+Prefix sums O(Q).
+
+-----------------------------------------------------------
+
+Subtask 5: L = 0, R = N-1
+
+Define LS[x] = closest on the left that is shorter than x, RS similarly.
+
+Lemma 1. x can be chosen whenever there exists a tower between (LS[x], x) such that H[tower] >= H[x]+D and there exists a tower between (x, RS[x]) such that H[tower] >= H[x]+D (*). In other words, let h1 = max of those (LS[x], x) and h2 = max of those (x, RS[x]), then x can be chosen if and only if h1 >= H[x]+d and h2 >= H[x]+D, or D <= min(h1, h2)-H[x]  
+
+Proof. Suppose we have (*), when processing x, focusing on the left: let l be the closest on the left already chosen (like LS[x], it is shorter than x), then (l, x) can definitely be connected, as l <= LS[x]. Same for (r, x), if there is. Furthermore, the greedy shows this is optimal.
+
+Suppose we dont have (*), again focusing on the left, let l be the closest on the left already chosen, we claim that x cannot have been chosen by the greedy. Suppose x was chosen by the greedy, that is, it satisfies the greedy requirement.
+
+Case 1: l < LS[x], specifically, the intermediary I must lie within (l, LS[x]), then LS[x] would have satisfied the greedy requirement, contradicting that l was closest. 
+
+Case 2: l = LS[x], this contradicts the restriction that l < LD[x], and x cannot have been chosen. 
+
+Thus, we precompute h1, h2 for all L, R, and obtain a list of p[x] = min(h1, h2)-H[x], sort and lower_bound.
+
+O(Q log N)
+
+
+Subtask 6: D is uniform
+
+Run a greedily over all towers. Suppose a1 < a2 < ... < ak were chosen.
+
+Suppose our interval [l,r] intercepts as follows
+
+a{i} < l <= a{i+1} < ... < a{j-1} <= r < a{j}
+
+Inductively consider x by increasing height:
+
+We show that any x with a{k} < x < a{k+1} (i+1 <= k < j-1) cannot be chosen given this interval. When x was considered globally, it was rejected because there existed a smaller chosen one in (LD[x], RD[x]), this means one of a{k}, a{k+1} lies in this interval. 
+
+We show that any x at a{k} remains chosen. This is clear because no smaller element can suddenly appear in (LD[x], RD[x])
+
+

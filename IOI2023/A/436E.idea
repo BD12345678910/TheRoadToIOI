@@ -1,0 +1,44 @@
+
+
+Important prerequisite problem...
+
+Given n <= 3e5, w <= 2n, and ai bi <= 1e9, which are costs to take values 1 and 2, with ai < bi (1 <= i <= n); find minimum cost to achieve w. 
+
+Consider the naive and incorrect greedy: take the option of highest value per cost each time. This might fail when we take both 1 and 2...
+
+Consider transforming the objects: we can take ai, and then possibly take bi-ai if ai is already taken. We order all of these objects by their value  descendingly, and take greedily the largest. The issue now is we might take bi-ai without taking ai...
+
+Case 1) ai < bi-ai, or 2ai < bi, then one would never take bi-ai first in the greedy, these aibi are fine, we do (ai, 1), (bi-ai, 1) as usual
+
+Case 2) ai >= bi-ai, or 2ai >= bi, in this case we may have taken bi-ai first, which is problematic; however, we have the intuition that taking bi is generally better... we first disallow taking only a by forcing only one object of weight bi with value 2: (bi, 2)!
+
+These objects constitute set X. Suppose we took set K.
+
+Claim. K has at most one Case 2) where that choice of disallowing was actually wrong.
+
+Proof. Suppose taking two Case 2) where that choice of disallowing was wrong is uniquely optimal.
+
+ai aj
+aj bj
+
+with 2ai >= bi and 2aj >= bj. Suppose ai <= aj, then bi <= 2ai <= ai+aj, meaning we can replace ai, aj with (bi, 2) to obtain an at least better arrangement. Contradiction.
+
+We take greedily until full or exceed by 1.
+
+If full, what we took must have been perfect...
+
+If full+1, which means we last took a 2
+- if that 2 is retained, we find the costliest to remove
+- if that 2 is discarded, we find the cheapest to add
+Both are O(n)
+
+Note that the Case 2) wrong choice is considered in full+1 and cannot have happened in full.
+
+
+
+
+
+
+
+
+

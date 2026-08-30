@@ -1,0 +1,7 @@
+Subtask 1: check if form chain, then force (1, average)
+
+Subtask 2: for x = 2 horizontal, go down to 1, for x = 4 horizontal go up to 5, the vertical all go leftward/rightward
+
+Subtask 3: ??
+
+Subtask 4: the spanning tree is determined, then we can do a bipartite matching between 

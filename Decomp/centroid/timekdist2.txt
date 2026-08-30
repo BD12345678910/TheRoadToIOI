@@ -1,0 +1,8 @@
+what is the time complexity of kdist2??
+
+the centroid decomposition stuff is n log n amortized per node: each node is visited by the log n centers it is under: each time going up the size at least doubles.
+
+Then the small to large: dep_child <= child_size. When merging, there will be dep_child merges or less than dep_child merges (when fr is merged into tmp), so totally, there are k merges when a centroid c controls k nodes. Since the tree splits on each centroid, we have log n layers that each yields a total of n (think something like segtree) 
+
+Both components are O(N log N).
+

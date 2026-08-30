@@ -1,0 +1,18 @@
+Consider the following problem:
+
+N x M grid, with M sets of 1...N randomly placed on the grid
+
+Why can we find M sets of one element from each row that each make up exactly 1....N?
+
+
+Create a bipartite multigraph
+
+Left vertices represent the N rows
+Right vertices represent the numbers 1 ... N
+Each grid cell containing x gives an edge from its row to number x
+
+For each set of rows S, we have M|S| edges connecting to the right. Each number can receive at most M of these edges, as there are M of each number. This means there are at least M|S|/M = |S| numbers that are contained by row set S. 
+
+By Hall's theorem, a perfect matching must exist. 
+
+We take the perfect matching and reduce the problem to N x (M-1), when M = 1 it clearly works.

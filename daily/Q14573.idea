@@ -1,0 +1,43 @@
+First query the chain = sum all = S
+
+Let {p} = {a}, sorted descendingly
+
+Then do stars centered at ax
+
+If ax >= p3, then query = p1+p2+p3
+
+Otherwise, query = p1+p2+ax
+
+We obtain:
+p1+p2+p3 = T i1
+p1+p2+p3 i2
+p1+p2+p3 i3
+p1+p2+p4 : i4
+p1+p2+p5 : i5
+p1+p2+p6 : i6
+...
+p1+p2+pn : in
+
+Their sum = np1+np2+3p3+p4+...+pn = K
+
+K-S-T-T = (n-3)(p1+p2), we know p1+p2 = P
+Then, we obtain p3 by T-P, but don't know who owns it: three indices share T!
+
+We further obtain p4, p5, p6 ... through differences, and know who owns it: i4 owns p4, i5 owns p5.
+
+We use the guess function to find who owns p3...
+
+Arrange a chain with i1, i2 on the ends, 
+
+i1-----c-----i2
+       |
+       |
+       i3
+
+If guess returns 1 for S-p3, then i3 owns p3 for sure, brutally repeat thrice?
+
+(If i3 owns p3, the guess says yes, and we take i3 has p3
+
+If i3 owns p1 or p2 = p3, the guess says yes and we take i3 has p3 (which is still correct)
+
+If i3 does not own p3, p3 is at i1 or i2, which means the returned diameter is a strictly smaller, implying that i3 cannot have p3)

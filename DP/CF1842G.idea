@@ -1,0 +1,20 @@
+Recall that we add v to suffixes of a, call these additions.
+
+The total number of possibilities is n^m, divide by this at the end.
+
+We now want S = the sum across all these possibilities.
+
+Consider the possible (a1+v+...+v)(a2+v+...+v)(a3+v+...+v)...(an+v...+v).
+
+We consider per term: each term uses only a's or v's, with at most n v's.
+
+Let f(i, j) denote the sum of all terms (up to the ith factor, (ai+v+....+v)) using v's from j different additions.
+
+We transition as follows:
+- f(i, j) to f(i+1, j): +f(i,j)*a[i+1], we take a{i+1} as the next factor for all these terms in f(i, j)
+- f(i, j) to f(i+1, j): +f(i,j)*v*j, we take v from additions we've already taken so far
+- f(i, j) to f(i+1, j+1); +f(i, j)*(i+1)*(m-j)*v, we take v from an untouched addition, of which there are (m-j), and we designate a starting position in [1,i].
+
+The final sums are f(n, j), where m-j additions are undetermined. They don't matter and we can arbitrarily assign them, hence times n^(m-j) to each and sum. Take this sum over n^m.
+
+

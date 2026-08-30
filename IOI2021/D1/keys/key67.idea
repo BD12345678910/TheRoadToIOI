@@ -1,0 +1,38 @@
+There are 30 different colors
+
+Repeat the following procedure:
+
+Sx = [r[x]] for all nodes
+Q = all nodes
+iterate Q:
+	for each edge:
+		if edge in Sx:
+			update x: Sx |= Sv
+			push x into Q
+		if edge in Sv:
+			update v: Sv |= Sx
+			push v into Q
+
+This produces a safe Sx that is a subset of the actual attainable colors for that node x.
+
+For each edge, we establish x-->y if c in Sx. We obtain a
+directed graph, and take all its SCC.
+
+Due to the nature of the update, we have that 
+if x --> y, then Sy subset of Sx. Because of this, in an SCC, Sx subset Sy subset Sz subset .... subset Sx, meaning that all Sx for x in the SCC are the SAME!
+
+Claim. For all x in the Sink SCC, x can only reach all nodes in that SCC
+
+Reach all nodes: x-->y implies that once entered into x, we can always get to y. By nature of SCC, we can reach all nodes in the SCC
+
+Cannot reach any other node: suppose that x can reach v outside of the SCC using some path, this means that there exists y --> z (edge in the original graph, not the new graph) that first left the SCC, this key c was obtained within the SCC because this was the first time of leaving the SCC; suppose taken at node w, then c in Sw = Sy, then c in Sy, but then that should've formed the edge y --> z in our directed graph, contradicting that this is a SINK.
+
+Therefore, each node in the sink reaches exactly all nodes in the sink.
+
+For non-sink nodes, just simply follow towards a sink and we know they are suboptimal.
+
+
+
+
+
+

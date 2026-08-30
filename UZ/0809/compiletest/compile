@@ -1,0 +1,6 @@
+#!/bin/bash
+
+task="magic"
+grader_name="grader"
+
+g++ -std=gnu++20 -Wall -O2 -pipe -g -o "${task}" "${grader_name}.cpp" "${task}.cpp"

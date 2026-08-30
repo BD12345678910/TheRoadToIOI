@@ -1,0 +1,67 @@
+IOI 2014 Holiday
+
+Proof of monotonicity
+
+Let F(l, r) = max attraction when visited interval is [l, r]
+= sum_of_k_largest = T(l, r, k = d-s-r+2l);
+
+We wish to prove that r < r' implies opt(r) <= opt(r')
+
+Take l1 < l2 <= s <= r < r', to show thawt 
+
+F(l1, r) + F(l2, r') >= F(l1, r') + F(l2, r), which is anti-Monge
+
+for maximization.
+
+Partition the interval into A = [l1, l2-1] B = [l2, r] C = [r+1, r']
+
+Let p = 2(l2-l1), h = r'-r
+
+Then F(l1, r) = T(AB, k-p), F(l2, r') = T(BC, k-h)
+F(l1, r') = T(ABC, k-p-h). F(l2, r) = T(B, k)
+
+equivalent to  T(AB, k-p) + T(BC, k-h) >= T(ABC, k-p-h) + T(B, k)
+
+Notice that whatever is chosen by the RHS can be chosen by the LHS, hence this property holds
+
+
+
+
+Now assume l = opt(r) and l' = opt(r') where r < r'
+
+Assume that l' < l! Then
+
+F(l', r) + F(l, r') >= F(l', r') + F(l, r)
+
+However, since l is optimal for r and l' for r': 
+
+F(l, r) >= F(l', r) and F(l', r') >= F(l, r'), adding both gives the reverse of the above, hence both must actually be equal
+
+This means that for both r and r', l and l' are tied optima!
+
+Therefore when given opt(r) = l, for r', a left endpoint < l can at most tie with l itself, meaning one of the optima of r' must be >= l.
+
+
+
+
+
+
+
+
+BETTER WAY TO END:
+
+
+Suppose opt(r) = l. Then you tell me that r' > r has opt(r') = l' < l.
+
+We know that F(l', r) <= F(l, r), and that 
+
+F(l', r) + F(l, r') >= F(l', r') + F(l, r)
+
+Subtract to obtain
+
+F(l, r') >= F(l', r'), or that l is also a suitable candidate.
+
+
+
+
+

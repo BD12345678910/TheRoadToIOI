@@ -1,0 +1,6 @@
+Run a dfs tree algorithm on the graph.
+
+This gives dfn, low and sz
+
+We sort a < b < c. We need two CC such that one >= a and the other >= b
+

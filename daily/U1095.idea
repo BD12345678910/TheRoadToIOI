@@ -1,0 +1,33 @@
+First consider a given sequence "a"
+
+Let mn_{x, i} = the minimum ending position of the ith interval given that
+each interval has x colors, and mx_{x, i} = max ending position
+
+Notice for a given x and i, if mn_{x, i} <= n <= mx_{x, i}, then the given sequence works with i intervals.
+
+A further observation is that for a given sequence, there is only one unique possible x:
+
+Lemma: mx_{x, i} < mn_{y, i} for x < y.
+
+Proof. Take a x-color partition with endpoints p1, ... pi, and a y-color partition with endpoints q1, ... qi, where x < y.
+
+We prove that pj < qj for every j. For j = 1, suppose p1 >= q1, then [1, p1] contains [1, q1], contradicting that the latter has more colors (y > x). Suppose for mathematical induction that pj-1 < qj-1. Suppose for contradiction that pj >= qj, then [q{j-1}+1, qj] is a subset of [p{j-1}_1, pj]. The same contradiction occurs: the former interval has more colors, impossible. Hence, pj-1 < qj-1 implies pj < qj. Hence proven.
+
+Since this is the case for all partitions, in particular it would hold for the lemma.
+
+If both x < y are valid:
+mn{x, k} <= n <= mx{x, k}
+mn{y, k} <= n <= mx{y, k}
+However, mx{x, k} < mn{y, k} gives n < n, impossible. Proof complete.
+
+
+Now, enumerate x, we wish to count the number of configurations such that n \in [mn{x,k}, mx{x,k}] 
+
+# desired = 
+#{mn{x, k}<=n}-#{mx{x,k}<n}
+
+
+
+
+
+

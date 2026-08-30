@@ -1,0 +1,16 @@
+from wangmarui
+
+Consider A = {0}, B = empty, C = {1, ... n-1}
+
+We try to insert elements from C into A or B one at a time, so that A and B are polar sets.
+
+We take a prefix of C and disconnect each with A and B, binary search to find the smallest prefix that gives false, p.
+
+This means that, suppose p = 3
+1 2 3 4 5
+√ √ x x x
+
+removing A-3 or B-3 caused disconnection. We retain [1, p-1] disconnections (H), and try adding each of A-3 (x) and B-3 (y). If x and y both caused disconnections, then not bipartite. If x or y caused disconnection, then it is clear which group p belongs to. We also finally claim that if neither caused disconnection, then the graph is not bipartite...
+
+Assume G-H is connected, G-H-x is connected, G-H-y is connected but G-H-x-y is not connected. Suppose that G is bipartite and that A and B are correctly colored. If p in A: p has no connections to B, this means G-H-y would have no effect on the graph, impossible; if p in B: p has no connections to A, this means G-H-x would have no effect on the graph impossible. p cannot be classified, it is not bipartite. 
+

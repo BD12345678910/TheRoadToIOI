@@ -1,0 +1,12 @@
+Subtasks 1,2,3:
+
+Firstly, one optimal tree must have all leafs L. Suppose some leaf x is K > L:
+
+Try decreasing that leaf by 1, if it fails, it means some closest ancestor j has 
+S[j] = L (with everyone between x, j > L), we claim that C[j] < 0, as otherwise C[j] >= 0 gives S[j] > L (considering the direct child of j on the path to x).
+
+Also, all internal nodes are non-positive!
+
+Then, we can apply a greedy: set all leafs to L and all internal nodes to 0. Go from the leafs up (dfs backtrack), if S[x] > R, we decrease the internal node that hurts least and is valid:
+
+specifically, when done at each node, L <= S[x] <= R, define slack[x] = S[x]-L. Whenever greedily decreasing from above, we just need to ensure that changing x maintains slack[y] >= 0 for all y from x to currently processing node. We take the minimal slack[y] along this chain, and decrease on 
